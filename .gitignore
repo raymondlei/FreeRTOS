@@ -1,3 +1,9 @@
+# FreeRTOS
+_source_code/FreeRTOS/.svn
+_source_code/FreeRTOS/FreeRTOS
+_source_code/FreeRTOS/FreeRTOS-Plus
+_source_code/FreeRTOS/*.url
+
 # Prerequisites
 *.d
 
