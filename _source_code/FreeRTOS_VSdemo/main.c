@@ -100,6 +100,7 @@
 /* FreeRTOS kernel includes. */
 #include "FreeRTOS.h"
 #include "task.h"
+#include "timers.h"
 
 /* This project provides two demo applications.  A simple blinky style demo
 application, and a more comprehensive test and demo application.  The
@@ -128,6 +129,7 @@ choice.  See http://www.freertos.org/a00111.html for an explanation. */
  * main_blinky() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 1.
  * main_full() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 0.
  */
+extern void app_basic(void);
 extern void main_blinky( void );
 extern void main_full( void );
 
@@ -199,7 +201,8 @@ int main( void )
 	of this file. */
 	#if ( mainCREATE_SIMPLE_BLINKY_DEMO_ONLY == 1 )
 	{
-		main_blinky();
+		//main_blinky();
+		app_basic();
 	}
 	#else
 	{
