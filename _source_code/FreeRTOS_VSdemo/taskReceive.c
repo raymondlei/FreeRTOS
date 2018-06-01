@@ -9,6 +9,7 @@
 #include "semphr.h"
 
 #include "app_tasks.h"
+#include "uart_queue.h"
 
 /* Priorities at which the tasks are created. */
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
@@ -29,34 +30,15 @@ void prvQueueReceiveTask(void *pvParameters)
 	/* Prevent the compiler warning about the unused parameter. */
 	(void)pvParameters;
 
-	uint32_t ulReceivedValue;
+    struct AMessage msgObj;
 
 	for (;; )
 	{
-		/* Wait until something arrives in the queue - this task will block
-		indefinitely provided INCLUDE_vTaskSuspend is set to 1 in
-		FreeRTOSConfig.h.  It will not use any CPU time while it is in the
-		Blocked state. */
-		xQueueReceive(xQueue, &ulReceivedValue, portMAX_DELAY);
+		/* Blocking call until something arrives in the queue */
+		uart_byteReceived(&msgObj);
 
-		/*  To get here something must have been received from the queue, but
-		is it an expected value?  Normally calling printf() from a task is not
-		a good idea.  Here there is lots of stack space and only one task is
-		using console IO so it is ok.  However, note the comments at the top of
-		this file about the risks of making Windows system calls (such as
-		console output) from a FreeRTOS task. */
-		if (ulReceivedValue == mainVALUE_SENT_FROM_TASK)
-		{
-			printf("Message received from task\r\n");
-		}
-		else if (ulReceivedValue == mainVALUE_SENT_FROM_TIMER)
-		{
-			printf("Message received from software timer\r\n");
-		}
-		else
-		{
-			printf("Unexpected message\r\n");
-		}
+		/*  To get here something must have been received from the queue */
+		printf("%s\r\n", msgObj.ucData);
 
 		/* Reset the timer if a key has been pressed.  The timer will write
 		mainVALUE_SENT_FROM_TIMER to the queue when it expires. */

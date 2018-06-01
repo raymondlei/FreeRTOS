@@ -8,6 +8,7 @@
 #include "timers.h"
 
 #include "app_tasks.h"
+#include "uart_queue.h"
 
 /* The rate at which data is sent to the queue.  The times are converted from
 milliseconds to ticks using the pdMS_TO_TICKS() macro. */
@@ -38,15 +39,17 @@ void prvQueueSendTimerCallback(TimerHandle_t xTimerHandle)
 	/* Avoid compiler warnings resulting from the unused parameter. */
 	(void)xTimerHandle;
 
-	const uint32_t ulValueToSend = mainVALUE_SENT_FROM_TIMER;
+	//const uint32_t ulValueToSend = mainVALUE_SENT_FROM_TIMER;
+	uint8_t buffer[12];
+	strncpy(&buffer[0], "0123456789", 5);
 
 	/* This is the software timer callback function.  The software timer has a
 	period of two seconds and is reset each time a key is pressed.  This
 	callback function will execute if the timer expires, which will only happen
 	if a key is not pressed for two seconds. */
 
-	/* Send to the queue - causing the queue receive task to unblock and
-	write out a message.  This function is called from the timer/daemon task, so
-	must not block.  Hence the block time is set to 0. */
-	xQueueSend(xQueue, &ulValueToSend, 0U);
+    if (uart_send(&buffer) == pdTRUE)
+    {
+        printf("data sent... ");
+    }
 }

@@ -259,6 +259,7 @@
     <ClCompile Include="taskReceive.c" />
     <ClCompile Include="taskSend.c" />
     <ClCompile Include="timerTasks.c" />
+    <ClCompile Include="uart_queue.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeRTOS\FreeRTOS\Source\include\event_groups.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="..\FreeRTOS\FreeRTOS\Source\include\task.h" />
     <ClInclude Include="app_tasks.h" />
     <ClInclude Include="Trace_Recorder_Configuration\trcConfig.h" />
+    <ClInclude Include="uart_queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

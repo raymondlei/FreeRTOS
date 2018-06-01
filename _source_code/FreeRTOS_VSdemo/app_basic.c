@@ -1,26 +1,15 @@
-/* Standard includes. */
-#include <stdio.h>
-#include <conio.h>
-
 /* Kernel includes. */
 #include "FreeRTOS.h"
-#include "task.h"
-#include "timers.h"
-#include "semphr.h"
+#include "task.h"  //for vTaskStartScheduler();
 
 #include "app_tasks.h"
-/* The number of items the queue can hold at once. */
-#define mainQUEUE_LENGTH					( 2 )
-
-/* The queue used by both tasks. */
-QueueHandle_t xQueue = NULL;
+#include "uart_queue.h"
 
 void app_basic(void)
 {
-	/* Create the queue. */
-	xQueue = xQueueCreate(mainQUEUE_LENGTH, sizeof(uint32_t));
+	uart_createObj();  /* Create the queue. */
 
-	if (xQueue != NULL)
+	if (uart_isInitialized())
 	{
 		/* Start the two tasks as described in the comments at the top of this file. */
 		taskReceive_create();
